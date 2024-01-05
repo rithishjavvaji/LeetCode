@@ -1,16 +1,16 @@
 class Solution {
 public:
-    int lengthOfLIS(vector<int>& v){
+    int lengthOfLIS(vector<int>& v) {
         int n=v.size();
-        vector<int> dp(n,1);
-        // dp[0]=1;
+        vector<int> dp;
+        dp.push_back(v[0]);
         for(int i=1;i<n;i++){
-            for(int j=0;j<i;j++){
-                if(v[i]>v[j]) dp[i]=max(1+dp[j],dp[i]);
+            if(dp.back()<v[i]) dp.push_back(v[i]);
+            else{
+                int k=lower_bound(dp.begin(),dp.end(),v[i])-dp.begin();
+                dp[k]=v[i];
             }
         }
-        int ans=INT_MIN;
-        for(auto c:dp) ans=max(ans,c);
-        return ans;
+        return dp.size();
     }
 };
